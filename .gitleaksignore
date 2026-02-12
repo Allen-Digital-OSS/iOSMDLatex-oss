@@ -1,0 +1,5 @@
+# Paths or rule IDs to ignore (false positives only). Do not add real secrets.
+# See https://github.com/gitleaks/gitleaks#gitleaksignore
+# Example:
+# path:some/file/with/fake/placeholder.txt
+# ruleid:generic-api-key

@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+        <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+        />
+        <title>KaTeX Renderer</title>
+        <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css"
+        />
+        <script src="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/katex/dist/contrib/auto-render.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/katex/dist/contrib/mhchem.min.js"></script>
+</head>
+<body>
+    <div id="content"></div>
+    <script>
+        function renderAllContent(html, completion) {
+            const content = document.getElementById('content');
+            if (content) {
+                content.innerHTML = html;
+                renderMathContent();
+                setupImageLoadHandlers(); // Setup image load handlers after content is added
+                // Waiting 2 animation frames to ensure layout
+                requestAnimationFrame(() => {
+                    requestAnimationFrame(() => {
+                        updateHeight();
+                        if (completion) completion();
+                    });
+                });
+            }
+        }
+        
+        function renderMathContent() {
+            const content = document.getElementById("content");
+            if (content) {
+                renderMathInElement(content, {
+                    delimiters: [
+                        { left: "\\(", right: "\\)", display: false },
+                        { left: "\\[", right: "\\]", display: true }
+                    ],
+                    throwOnError: false
+                });
+            }
+        }
+
+        function updateHeight() {
+            const content = document.getElementById('content');
+            if (content) {
+                setTimeout(() => {
+                    const height = content.scrollHeight;
+                    if (window.webkit?.messageHandlers?.contentHeight) {
+                        window.webkit.messageHandlers.contentHeight.postMessage(height);
+                    }
+                }, 100); // Adjust delay as needed
+            }
+        }
+
+        // Update height when images load and setup image tap handlers
+        function setupImageLoadHandlers() {
+            const images = document.querySelectorAll('img');
+            images.forEach(img => {
+                if (img.complete) {
+                    updateHeight();
+                } else {
+                    img.addEventListener('load', updateHeight);
+                    img.addEventListener('error', updateHeight);
+                }
+                
+                // Add click handler for image taps
+                img.addEventListener('click', function(event) {
+                    event.preventDefault();
+                    const imageUrl = img.src || img.getAttribute('src') || '';
+                    if (window.webkit?.messageHandlers?.imageTapped) {
+                        window.webkit.messageHandlers.imageTapped.postMessage(imageUrl);
+                    }
+                });
+                
+                // Add cursor pointer style to indicate images are clickable
+                img.style.cursor = 'pointer';
+            });
+        }
+
+        // Called on DOMContentLoaded to do initial setup.
+        // The actual text is injected from Swift code.
+        document.addEventListener("DOMContentLoaded", function () {
+            updateHeight();
+        });
+    </script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            overflow-y: hidden;
+            font-family: -apple-system, BlinkMacSystemFont, Arial, sans-serif;
+        }
+
+        /* The content div */
+        #content {
+            contain: layout style;
+            will-change: transform;
+            margin: 0;
+            padding: 0;
+            line-height: 1.5;
+            box-sizing: border-box;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            -webkit-text-size-adjust: none;
+        }
+
+        .katex {
+            font-size: 1.1em;
+            line-height: 1.2;
+        }
+
+        /* Make block equations horizontally scrollable when they overflow */
+        .katex-display {
+            overflow-x: auto;
+            overflow-y: hidden;
+            white-space: nowrap;
+            padding: 8px 0;
+            margin: 12px 0;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: thin;
+        }
+
+        /* Style the scrollbar for better UX */
+        .katex-display::-webkit-scrollbar {
+            height: 6px;
+        }
+
+        .katex-display::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.1);
+            border-radius: 3px;
+        }
+
+        .katex-display::-webkit-scrollbar-thumb {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 3px;
+        }
+
+        .katex-display::-webkit-scrollbar-thumb:hover {
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        /* Ensure inline math doesn't break and stays readable */
+        .katex {
+            max-width: 100%;
+            overflow-x: auto;
+            display: inline-block;
+        }
+
+        /* Table styles for GitHub Flavored Markdown tables */
+        table {
+            border-collapse: collapse;
+            margin: 16px 0;
+            width: 100%;
+            overflow-x: auto;
+            display: block;
+            white-space: nowrap;
+        }
+
+        table thead,
+        table tbody {
+            display: table;
+            width: 100%;
+            table-layout: fixed;
+        }
+
+        table th,
+        table td {
+            border: 1px solid rgba(128, 128, 128, 0.3);
+            padding: 8px 12px;
+            text-align: left;
+            vertical-align: top;
+            word-wrap: break-word;
+            white-space: normal;
+        }
+
+        table th {
+            background-color: rgba(128, 128, 128, 0.1);
+            font-weight: 600;
+        }
+
+        table tr:nth-child(even) {
+            background-color: rgba(128, 128, 128, 0.05);
+        }
+
+        /* Responsive table wrapper */
+        @media (max-width: 768px) {
+            table {
+                font-size: 14px;
+            }
+            
+            table th,
+            table td {
+                padding: 6px 8px;
+            }
+        }
+
+        /* Image styles for responsive images */
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 12px auto;
+            border-radius: 4px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        
+        /* Hover effect for images to indicate they're clickable */
+        img:hover {
+            transform: scale(1.02);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Ensure images don't overflow the container */
+        #content img {
+            max-width: 100% !important;
+            width: auto !important;
+            height: auto !important;
+            object-fit: contain;
+        }
+
+        /* Handle images within paragraphs */
+        p img {
+            margin: 8px auto;
+        }
+
+        /* For very large images, add some breathing room */
+        @media (max-width: 480px) {
+            img {
+                margin: 8px auto;
+                max-width: calc(100% - 16px);
+            }
+        }
+    </style>
+</body>
+</html>
+

@@ -1,0 +1,24 @@
+# Pre-commit hooks for secret and safety checks.
+# Install: pre-commit install
+# Run manually: pre-commit run --all-files
+# CI runs these same hooks; bypassing locally with --no-verify will still fail on push.
+
+repos:
+  # --- Secret detection (primary) ---
+  - repo: https://github.com/gitleaks/gitleaks
+    rev: v8.18.0
+    hooks:
+      - id: gitleaks
+        name: Gitleaks (detect secrets)
+
+  # --- Extra secret patterns (no extra install) ---
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.5.0
+    hooks:
+      - id: detect-private-key
+      - id: detect-aws-credentials
+      - id: check-added-large-files
+        args: ["--maxkb=1024"]
+      - id: check-merge-conflict
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
