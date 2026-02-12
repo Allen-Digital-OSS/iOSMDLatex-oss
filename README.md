@@ -25,7 +25,7 @@ A powerful Swift package for seamlessly rendering Markdown with LaTeX support. F
 Add the following to your `Package.swift`:
 
 ```swift
-.package(url: "https://github.com/Allen-Digital-OSS/iOSMDLatex-oss", from: "2.0.3")
+.package(url: "https://github.com/Allen-Digital-OSS/iOSMDLatex-oss", from: "1.0.1")
 ```
 
 Include `MDLatex` as a dependency for your target:
@@ -41,7 +41,7 @@ Or add it via Xcode:
 
 ---
 
-## What's New in v2.0.1
+## What's New
 
 🚀 **Enhanced Table Cell Processing & Image Interaction:**
 - **✅ LaTeX in Table Cells**: LaTeX expressions now render perfectly within table cells
@@ -138,7 +138,7 @@ struct ContentView: View {
 
 ---
 
-### Image Tap Handling (NEW in v2.0.1)
+### Image Tap Handling
 MDLatex now supports **image tap callbacks** for implementing full-screen image viewers:
 
 ```swift
@@ -179,7 +179,7 @@ struct ContentView: View {
 
 ---
 
-### Enhanced Table Processing (NEW in v2.0.1)
+### Enhanced Table Processing
 MDLatex now features **complete LaTeX and Markdown support within table cells**:
 
 ```swift
@@ -437,8 +437,6 @@ https://github.com/user-attachments/assets/d3984f54-8272-4a7f-9c43-5a7de3da017f
 ---
 
 ## Changelog
-
-### Version 2.0.3 (Latest)
 🚀 **Enhanced Table Cell Processing & Image Interaction:**
 - ✅ **Fixed LaTeX rendering in tables:** LaTeX expressions now render properly within table cells
 - ✅ **Fixed Markdown rendering in tables:** Bold, italic, links, code, and strikethrough formatting now work in table cells
@@ -457,14 +455,6 @@ https://github.com/user-attachments/assets/d3984f54-8272-4a7f-9c43-5a7de3da017f
 - Enhanced HTML template with image click handlers and visual feedback CSS
 - Updated both animated and non-animated rendering pipelines
 - Improved placeholder restoration logic for complex HTML contexts
-
-### Version 1.0.5
-🚀 **Major Enhancements:**
-- **Enhanced Table Support**: Robust parsing of complex malformed tables with images, multi-line content, and various structures
-- **Generic Table Processing**: Works with any table format without hardcoded patterns
-- **Dual-Mode Table Support**: Advanced table processing in both animated and non-animated rendering modes
-- **Production-Ready Performance**: Optimized code with clean architecture and removed debug overhead
-- **Robust LaTeX Rendering**: Enhanced KaTeX loading detection and timing controls
 
 ---
 
