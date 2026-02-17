@@ -25,7 +25,7 @@ A powerful Swift package for seamlessly rendering Markdown with LaTeX support. F
 Add the following to your `Package.swift`:
 
 ```swift
-.package(url: "https://github.com/Allen-Digital-OSS/iOSMDLatex-oss", from: "1.0.2")
+.package(url: "https://github.com/Allen-Digital-OSS/iOSMDLatex-oss", from: "1.0.3")
 ```
 
 Include `MDLatex` as a dependency for your target:
