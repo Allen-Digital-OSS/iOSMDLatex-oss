@@ -7,7 +7,7 @@ A powerful Swift package for seamlessly rendering Markdown with LaTeX support. F
 ## Features
 - **Markdown and LaTeX Rendering:** Combines the power of Markdown and LaTeX to deliver beautifully rendered content.
 - **GitHub Flavored Markdown Support:** Full support for tables, strikethrough text, task lists, code blocks, and all GFM features.
-- **Enhanced Table Processing with LaTeX & Markdown:** Robust table parsing that handles LaTeX expressions and full Markdown formatting within table cells - **NEW in v2.0.1!**
+- **Enhanced Table Processing with LaTeX & Markdown:** Robust table parsing that handles LaTeX expressions and full Markdown formatting within table cells 
 - **Advanced Table Support:** Works with complex malformed tables with images, multiline content, and various structures.
 - **Generic Table Support:** Works with any table format or structure without hardcoded patterns or content-specific logic.
 - **Customizable Themes:** Modify background color, font size, font family, and more to suit your app's design.
@@ -25,7 +25,7 @@ A powerful Swift package for seamlessly rendering Markdown with LaTeX support. F
 Add the following to your `Package.swift`:
 
 ```swift
-.package(url: "https://github.com/Allen-Digital-OSS/iOSMDLatex-oss", from: "1.0.1")
+.package(url: "https://github.com/Allen-Digital-OSS/iOSMDLatex-oss", from: "1.0.2")
 ```
 
 Include `MDLatex` as a dependency for your target:
